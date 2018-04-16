@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="likeplaceMapper">
+<resultMap id="LikeplaceResultMap" type="Likeplace">
+  		<result property="like_member" column="like_member"/>
+  		<result property="like_place_code" column="like_place_code"/>
+  		<result property="like_place_no" column="like_place_no"/>
+	</resultMap>
+		<select id="selectLikeplaceList" resultMap="LikeplaceResultMap">
+		<![CDATA[
+		select * from likeplace where like_member = #{like_member}  and like_place_code = #{like_place_code} 
+			]]>
+	</select> 
+		<insert id="addLike" parameterType="Likeplace">
+		<![CDATA[
+			insert  into likeplace values(#{like_member},#{like_place_code},#{like_place_no})
+			]]>
+		</insert>
+		<delete id="deleteLike" parameterType="Likeplace">
+		<![CDATA[
+			delete from likeplace where like_member = #{like_member} and like_place_code = #{like_place_code} and like_place_no = #{like_place_no}
+			]]>
+		</delete>
+
+
+
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnareplyMapper">
+<!-- namespace는 패키지명 역할 -->
+<resultMap id="QnareplyResultMap" type="Qnareply">
+<result property="qr_no" column ="qr_no"/>
+<result property="qr_ref_no" column="qr_ref_no"/>
+<result property="qr_writer" column ="qr_writer"/>
+<result property="qr_content" column ="qr_content"/>
+<result property ="qr_date" column ="qr_date"/>
+</resultMap>
+
+<select id="selectQnareplyList" resultMap ="QnareplyResultMap">
+<![CDATA[
+select * from qnareply where qr_ref_no=#{q_no} order by qr_no desc
+]]>
+</select>
+
+<insert id="insertQnaReply" parameterType="Qnareply">
+
+<![CDATA[
+insert into qnareply values((select max(qr_no)+1 from qnareply), #{qr_ref_no} ,#{qr_writer},#{qr_content},sysdate)
+]]>
+</insert>
+<delete id="deleteQnaReply" parameterType="Qnareply">
+<![CDATA[
+delete from qnareply where qr_no=#{qr_no}
+]]>
+</delete>
+</mapper>

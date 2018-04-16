@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="foodMapper">
+   <resultMap id="FoodResultMap" type="Food">
+      <result property="food_no" column="food_no" />
+      <result property="food_nation1" column="food_nation1" />
+      <result property="food_nation2" column="food_nation2" />
+      <result property="food_title" column="food_title" />
+      <result property="food_content" column="food_content" />
+      <result property="food_original_filename" column="food_original_filename" />
+      <result property="food_rename_filename" column="food_rename_filename" />
+      <result property="food_address" column="food_address" />
+      <result property="food_writer" column="food_writer" />
+      <result property="food_phone" column="food_phone" />
+      <result property="food_like_count" column="food_like_count" />
+   </resultMap>
+
+   <select id="selectFoodList" resultMap="FoodResultMap">
+      <![CDATA[
+      select  *  from  food  where food_nation1 = #{nation1} order by food_no desc
+         ]]>
+   </select>
+   <select id="selectFoodOne" resultType="Food">
+   <![CDATA[
+   select * from food where food_no=#{no}
+   ]]>
+   </select>
+   <select id="foodReco" resultMap="FoodResultMap">
+      <![CDATA[
+      select * from food  where  food_nation1 like '%' ||  #{food_nation1} || '%' order by food_no desc
+         ]]>
+   </select>
+
+   <insert id="foodInsert" parameterType="Food">
+      insert into food values ((select max(food_no) from
+      food)+1,#{food_nation1},#{food_nation2},#{food_title},#{food_content},#{food_original_filename},#{food_rename_filename},#{food_address},#{food_writer},#{food_phone},0)
+
+
+   </insert>
+
+   <delete id="deleteFood" parameterType="Food">
+   <![CDATA[
+   delete from Food
+   where food_no =#{food_no}
+   ]]>
+   </delete>
+
+   <select id="selectnationBest" resultMap="FoodResultMap" parameterType="Food">
+      <![CDATA[
+      select * from (select * from (select * from food union All select * from spot union all select * from hotel) where food_nation1 = #{food_nation1} order by food_like_count desc) where rownum between 1 and 4
+         ]]>
+   </select>
+
+<update id="addLikecount">
+   <![CDATA[
+   update food set food_like_count = food_like_count+1 where food_no = #{like_place_no}
+   ]]>
+   </update>
+   
+   <update id="dellikecount">
+   <![CDATA[
+   update food set food_like_count = food_like_count-1 where food_no = #{like_place_no}
+   ]]>
+   </update>
+   
+</mapper>

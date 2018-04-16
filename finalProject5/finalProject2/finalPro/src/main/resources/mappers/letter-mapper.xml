@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="letterMapper">
+	<!-- namespace는 패키지명 역할 -->
+
+	<resultMap id="letterResultMap" type="Letter">
+		<result property="b_no" column="b_no" />
+		<result property="white_id" column="white_id" />
+		<result property="black_id" column="black_id" />
+		<result property="b_title" column="b_title" />
+		<result property="b_content" column="b_content" />
+		<result property="b_date" column="b_date" />
+	</resultMap>
+
+	<!-- 페이징 처리용 -->
+	<select id="selectAll" resultMap="letterResultMap" resultType="List"
+		parameterType="java.util.HashMap"> 
+		<![CDATA[ 
+		SELECT * 
+		FROM (SELECT ROWNUM RNUM, b_no,white_id, 
+					black_id, b_title,	b_content, b_date
+			   		  FROM black
+			   		  order by b_date desc)
+		WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+
+	<select id="listCount" resultType="int"> 
+		<![CDATA[
+			SELECT COUNT(*) FROM black 
+		]]>
+	</select>
+
+	<select id="selectOne" resultType="Letter" parameterType="Letter">
+		<![CDATA[
+			SELECT * from black where b_no=#{b_no}
+		]]>
+	</select>
+	<insert id="insertLetter" parameterType="Letter">
+		<![CDATA[
+			insert into black values ((select max(b_no)+1 from black), #{white_id}, #{black_id}, #{b_title}, #{b_content}, sysdate) 
+		]]>
+	</insert>
+
+
+</mapper>

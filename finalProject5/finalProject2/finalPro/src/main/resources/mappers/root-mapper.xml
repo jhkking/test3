@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rootMapper">
+	<!-- namespace는 패키지명 역할 -->
+
+	<resultMap id="rootResultMap" type="Rootconsulting">
+		<result property="mr_writer" column="mr_writer" />
+		<result property="mr_day" column="mr_day" />
+		<result property="mr_nation1" column="mr_nation1" />
+		<result property="mr_nation2" column="mr_nation2" />
+		<result property="mr_title" column="mr_title" />
+		<result property="mr_content" column="mr_content" />
+		<result property="mr_original_filename" column="mr_original_filename" />
+		<result property="mr_rename_filename" column="mr_rename_filename" />
+		<result property="mr_readcount" column="mr_readcount" />
+		<result property="mr_date" column="mr_date" />
+	</resultMap>
+
+
+	<insert id="rootInsert"  parameterType="Rootconsulting">
+	<![CDATA[
+				insert into myreview values(#{mr_writer},#{mr_day},#{mr_nation1},#{mr_nation2},#{mr_title},#{mr_content},#{mr_original_filename},#{mr_rename_filename}, 0 ,sysdate)
+			]]>
+	</insert>
+	<select id="myRootList" resultMap="rootResultMap">
+		<![CDATA[
+					select * from myreview where mr_writer = #{id} and mr_day = 1
+			]]>
+	</select>
+	<select id="serchLastDay" resultType="int">
+		<![CDATA[
+					select max(mr_day) from myreview where mr_writer = #{id} and mr_title = #{title}
+			]]>
+	</select>
+
+	<select id="selectOneRoot" resultMap="rootResultMap">
+		<![CDATA[
+					select * from myreview where mr_writer = #{id}  and  mr_title = #{title} order by mr_day asc
+			]]>
+	</select>
+
+	<select id="mrInsertListSelect" resultMap="rootResultMap">
+		<![CDATA[
+					select * from myreview where mr_writer = #{id} and  mr_title=#{title}  order by mr_day asc
+			]]>
+	</select>
+	<delete id="mrDelete">
+		<![CDATA[
+					delete from myreview where mr_writer = #{id} and  mr_title=#{title}
+			]]>
+	</delete>
+	<update id="rootModify" parameterType="Rootconsulting">
+		<![CDATA[
+					update myreview set mr_nation1=#{mr_nation1}, mr_nation2 = #{mr_nation2},  mr_content=#{mr_content}, mr_original_filename=#{mr_original_filename}, mr_rename_filename=#{mr_rename_filename} where mr_writer=#{mr_writer} and  mr_title=#{mr_title}  and mr_day=#{mr_day}
+			]]>
+	</update>
+
+	<update id="rootModifyLast" parameterType="Rootconsulting">
+		<![CDATA[
+					update myreview set mr_nation1=#{mr_nation1}, mr_nation2 = #{mr_nation2},  mr_content=#{mr_content}, mr_original_filename=#{mr_original_filename}, mr_rename_filename=#{mr_rename_filename} where mr_writer=#{mr_writer} and  mr_title=#{mr_title}  and mr_day=#{mr_day}
+			]]>
+	</update>
+	<select id="mrDay" resultType="Rootconsulting">
+		<![CDATA[
+					select * from myreview where mr_writer = #{mr_writer}  and  mr_title = #{mr_title}  and mr_day = #{mr_day}
+			]]>
+	</select>
+
+</mapper>

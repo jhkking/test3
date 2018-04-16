@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="common.JDBCTemplate"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="member.model.vo.Member"/>
+<fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="com.oreilly.servlet.MultipartRequest"/>
+<fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"/>
+<fullyQualifiedTypeName name="reviewBoard.model.vo.ReviewBoard"/>
+<fullyQualifiedTypeName name="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="comment.model.vo.Comment"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="reviewBoard.model.vo.ReviewComment"/>
+<fullyQualifiedTypeName name="reviewBoard.model.service.ReviewBoardService"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="vrBoard.model.service.vrBoardService"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+</qualifiedTypeNameHistroy>

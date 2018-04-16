@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hotelMapper">
+   <resultMap id="HotelResultMap" type="Hotel">
+      <result property="h_no" column="h_no" />
+      <result property="h_nation1" column="h_nation1" />
+      <result property="h_nation2" column="h_nation2" />
+      <result property="h_title" column="h_title" />
+      <result property="h_content" column="h_content" />
+      <result property="h_original_filename" column="h_original_filename" />
+      <result property="h_rename_filename" column="h_rename_filename" />
+      <result property="h_address" column="h_address" />
+      <result property="h_writer" column="h_writer" />
+      <result property="h_phone" column="h_phone" />
+      <result property="h_like_count" column="h_like_count" />
+   </resultMap>
+   <select id="selectHotelList" resultMap="HotelResultMap">
+      <![CDATA[
+      select * from hotel where h_nation1=#{nation1} order by h_no desc
+         ]]>
+   </select>
+   <select id="selectHotelOne" resultType="Hotel">
+   <![CDATA[
+   select * from hotel where h_no=#{no}
+   ]]>
+   </select>
+
+   <select id="hotelReco" resultMap="HotelResultMap">
+      <![CDATA[
+      select * from hotel  where  h_nation1 like '%' ||  #{h_nation1} || '%' order by h_no desc
+         ]]>
+   </select>
+
+   <insert id="hotelInsert" parameterType="Hotel">
+      insert into hotel values ((select max(h_no) from
+      hotel)+1,#{h_nation1},#{h_nation2},#{h_title},#{h_content},#{h_original_filename},#{h_rename_filename},#{h_address},#{h_writer},#{h_phone},0)
+
+
+   </insert>
+
+
+   <delete id="deleteHotel" parameterType="Hotel">
+   <![CDATA[
+   delete from Hotel
+   where h_no =#{h_no}
+   ]]>
+   </delete>
+   <update id="addLikecount">
+   <![CDATA[
+   update hotel set h_like_count = h_like_count+1 where h_no = #{like_place_no}
+   ]]>
+   </update>
+	<update id="dellikecount">
+   <![CDATA[
+   update hotel set h_like_count = h_like_count-1 where h_no = #{like_place_no}
+   ]]>
+   </update>
+
+
+</mapper>

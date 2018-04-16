@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spotreplyMapper">
+<!-- namespace는 패키지명 역할 -->
+
+<resultMap id="spotreplyResultMap" type="Spotreply">
+  		<result property="sp_no" column="sp_no"/>
+  		<result property="sp_ref_no" column="sp_ref_no"/>
+  		<result property="sp_writer" column="sp_writer"/>
+  		<result property="sp_content" column="sp_content"/>
+  		<result property="sp_date" column="sp_date"/>
+
+	</resultMap>
+	 
+
+	<!-- <select id="selectBoardList" resultType="List"  > -->
+	<select id="selectSpotreplyList" resultMap="spotreplyResultMap">
+		<![CDATA[
+		select * from spotreply where sp_ref_no=#{no} order by sp_no desc
+			]]>
+	</select>
+	
+	<insert id="insertSpotReply" parameterType="Spotreply">
+		<![CDATA[
+				insert  into  spotreply values( (select max(sp_no) +1 from spotreply)  ,#{sp_ref_no},#{sp_writer},#{sp_content},sysdate)
+			]]>
+	</insert>
+<delete id="deleteSpotReply" parameterType="Spotreply">
+	<![CDATA[
+	delete from spotreply where sp_no=#{sp_no}
+	]]>
+	</delete>
+
+
+
+
+</mapper>

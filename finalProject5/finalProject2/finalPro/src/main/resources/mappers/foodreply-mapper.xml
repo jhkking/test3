@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="foodreplyMapper">
+<!-- namespace는 패키지명 역할 -->
+
+<resultMap id="FoodreplyResultMap" type="Foodreply">
+  		<result property="fo_no" column="fo_no"/>
+  		<result property="fo_ref_no" column="fo_ref_no"/>
+  		<result property="fo_writer" column="fo_writer"/>
+  		<result property="fo_content" column="fo_content"/>
+  		<result property="fo_date" column="fo_date"/>
+
+	</resultMap>
+	 
+
+	<!-- <select id="selectBoardList" resultType="List"  > -->
+	<select id="selectFoodreplyList" resultMap="FoodreplyResultMap">
+		<![CDATA[
+		select * from foodreply where fo_ref_no=#{no} order by fo_no desc
+			]]>
+	</select>
+	
+	<insert id="insertFoodReply" parameterType="Foodreply">
+		<![CDATA[
+				insert  into  foodreply values( (select max(fo_no) +1 from foodreply)  ,#{fo_ref_no},#{fo_writer},#{fo_content},sysdate)
+			]]>
+	</insert>
+	<delete id="deleteFoodReply" parameterType="Foodreply">
+	<![CDATA[
+	delete from foodreply where fo_no=#{fo_no}
+	]]>
+	</delete>
+
+
+
+</mapper>

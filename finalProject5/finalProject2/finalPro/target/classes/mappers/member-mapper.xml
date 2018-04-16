@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+   <!-- <select id="loginMember" resultType="Member" parameterType="Member"> 
+      <![CDATA[ SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id} AND MEMBER_PWD 
+      = #{member_pwd} ]]> </select> -->
+
+   <insert id="insertMember" parameterType="Member"
+      useGeneratedKeys="true">
+      <![CDATA[
+      insert into member values(#{member_id}, #{member_pwd}, 
+      #{member_name}, #{pwd_hint}, #{pwd_answer}, #{member_birth}, #{gender}, 
+      #{phone}, #{email}, #{address}, default, #{img_original_filename}, #{img_rename_filename})
+      ]]>
+   </insert>
+
+   <select id="idChk" resultType="Member" parameterType="Member">
+      <![CDATA[
+         SELECT * FROM MEMBER 
+         WHERE MEMBER_ID = #{member_id} 
+      ]]>
+   </select>
+
+   <update id="updateMember" parameterType="Member">
+      <![CDATA[
+         UPDATE MEMBER SET 
+          PHONE = #{phone},
+          EMAIL = #{email},
+          ADDRESS = #{address}
+          WHERE MEMBER_ID = #{member_id}
+      ]]>
+   </update>
+
+   <delete id="deleteMember" parameterType="Member">
+      <![CDATA[
+      DELETE FROM MEMBER WHERE MEMBER_ID = #{member_id}
+      ]]>
+   </delete>
+
+   <!-- 로그인 체크 -->
+   <select id="loginCheck" resultType="String">
+   <![CDATA[
+        SELECT member_id FROM member WHERE member_id = #{member_id} AND member_pwd = #{member_pwd}
+        ]]>
+   </select>
+
+   <select id="viewMember" resultType="Member">
+    <![CDATA[
+        SELECT *
+        FROM member
+        WHERE member_id = #{member_id}
+        ]]>
+   </select>
+
+   <select id="findId" resultType="Member">
+    <![CDATA[
+    select * from member where member_name = #{member_name} and email = #{email}
+     ]]>
+   </select>
+
+   <select id="findHint" resultType="Member" parameterType="Member">
+       <![CDATA[
+    select * from member where member_id = #{member_id}
+     ]]>
+   </select>
+
+   <update id="updatePwd" parameterType="Member">
+      <![CDATA[
+         UPDATE MEMBER SET MEMBER_PWD = #{member_pwd} WHERE MEMBER_ID = #{member_id}
+      ]]>
+   </update>
+
+   <update id="imgUpdate" parameterType="Member">
+      <![CDATA[
+         UPDATE MEMBER SET 
+         IMG_ORIGINAL_FILENAME = #{img_original_filename}, 
+         IMG_RENAME_FILENAME = #{img_rename_filename}
+          WHERE MEMBER_ID = #{member_id}
+      ]]>
+   </update>
+
+   <select id="selectOne" resultType="Member" parameterType="String">
+       <![CDATA[
+    select * from member where member_id = #{member_id}
+     ]]>
+   </select>
+
+
+</mapper>

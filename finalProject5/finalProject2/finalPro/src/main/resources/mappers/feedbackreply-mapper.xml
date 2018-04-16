@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="feedbackreplyMapper">
+<!-- namespace는 패키지명 역할 -->
+<resultMap id="FeedbackreplyResultMap" type="Feedbackreply">
+<result property="fr_no" column ="fr_no"/>
+<result property="fr_ref_no" column="fr_ref_no"/>
+<result property="fr_title" column ="fr_title"/>
+<result property="fr_writer" column ="fr_writer"/>
+<result property="fr_content" column ="fr_content"/>
+<result property ="fr_date" column ="fr_date"/>
+</resultMap>
+
+<select id="selectFeedbackreplyList" resultMap ="FeedbackreplyResultMap">
+<![CDATA[
+select * from feedbackreply where fr_ref_no=#{no} order by fr_no desc
+]]>
+</select>
+
+<insert id="insertFeedbackReply" parameterType="Feedbackreply">
+
+<![CDATA[
+insert into feedbackreply values((select max(fr_no)+1 from feedbackreply), #{fr_ref_no},  'title'  ,#{fr_writer},#{fr_content},sysdate)
+]]>
+</insert>
+<delete id="deleteFeedbackReply" parameterType="Feedbackreply">
+<![CDATA[
+delete from feedbackreply where fr_no=#{fr_no}
+]]>
+</delete>
+</mapper>

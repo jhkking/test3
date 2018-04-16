@@ -1,0 +1,98 @@
+package reviewBoard.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import reviewBoard.model.service.ReviewBoardService;
+import reviewBoard.model.vo.ReviewBoard;
+
+/**
+ * Servlet implementation class ReviewBoardListServlet
+ */
+@WebServlet("/rblist")
+public class ReviewBoardListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ReviewBoardListServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 사용자 후기  게시판
+		response.setContentType("text/html; charset=utf-8");
+		
+		//페이지
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		//한 페이지에 출력할 목록 갯수 지정
+		int limit = 10;
+		
+		ReviewBoardService bservice = new ReviewBoardService();
+		//전체 목록 개수 리턴
+		int listCount = bservice.getListCount();
+		//댓글 개수 리턴
+	
+		///원하는 페이지에 대한 목록 리턴
+		ArrayList<ReviewBoard> list = bservice.selectList(currentPage, limit);
+		
+		//총 페이지 수 계산 : 목록이 1개이면 1페이지로 처리
+		int maxPage = (int)((double)listCount / limit + 0.9);
+		
+		//현재 보여줄 페이지에 대한 시작 숫자 계산
+		//(1,11,21...)
+		int startPage = (((int)((double)currentPage / limit +0.9 )) -1) * limit +1;
+		int endPage = startPage + limit -1;
+		if(maxPage<endPage) {
+			endPage = maxPage;
+		}
+		
+		RequestDispatcher view = null;
+	//	if(!map.isEmpty()) {
+		if(!list.isEmpty()) {
+			view = request.getRequestDispatcher("views/reviewboard/reviewListView.jsp");
+			//request.setAttribute("map", map);
+			request.setAttribute("list", list);
+			request.setAttribute("currentPage", currentPage);
+			request.setAttribute("maxPage", maxPage);
+			request.setAttribute("startPage", startPage);
+			request.setAttribute("endPage", endPage);
+			request.setAttribute("listCount", listCount);
+
+			view.forward(request, response);
+			
+		}else {
+			view = request.getRequestDispatcher("views/reviewboard/reviewListView.jsp");
+			//request.setAttribute("map", map);
+			request.setAttribute("list", list);
+			request.setAttribute("currentPage", currentPage);
+			request.setAttribute("maxPage", maxPage);
+			request.setAttribute("startPage", startPage);
+			request.setAttribute("endPage", endPage);
+			request.setAttribute("listCount", listCount);
+
+			view.forward(request, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnaMapper">
+	<!-- namespace는 패키지명 역할 -->
+
+	<resultMap id="qnaResultMap" type="Qna">
+		<result property="q_no" column="q_no" />
+		<result property="q_title" column="q_title" />
+		<result property="q_writer" column="q_writer" />
+		<result property="q_content" column="q_content" />
+		<result property="q_readcount" column="q_readcount" />
+			<result property="q_date" column="q_date" />
+	</resultMap>
+
+
+
+	<select id="selectQnaList" resultMap="qnaResultMap">
+		<![CDATA[
+		select * from qna order by q_no desc
+			]]>
+	</select>
+
+	<select id="selectQnaOne" resultType="Qna">
+		<![CDATA[
+		select * from qna where q_no = #{q_no}
+			]]>
+	</select>
+	<update id="updateReadCount">
+	<![CDATA[
+		update qna set q_readcount=q_readcount+1 where q_no = #{qnaNo}
+			]]>
+	</update>
+	
+		<delete id="deleteQna" parameterType="Qna">
+		<![CDATA[
+		delete from QNA
+		where q_no = #{q_no}
+		]]>
+	</delete>
+	
+	
+	<insert id="qnaInsert" parameterType="Qna">
+		insert into qna values((select max(q_no)+1 from qna ) ,#{q_title},#{q_writer} ,#{q_content},0,sysdate)
+	</insert>
+
+	<update id="updateQna" parameterType="Qna">
+		<![CDATA[
+		UPDATE qna SET q_title = #{q_title},q_content = #{q_content} , q_readcount=#{q_readcount}, q_date=#{q_date}  WHERE q_no = #{q_no}
+		]]>
+	</update>
+
+</mapper>

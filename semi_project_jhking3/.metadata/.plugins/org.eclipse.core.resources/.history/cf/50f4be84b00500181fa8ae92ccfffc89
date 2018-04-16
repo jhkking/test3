@@ -1,0 +1,76 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Place</title>
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="css/1-col-portfolio.css" rel="stylesheet">
+
+<style>
+table.type03 {
+	border-collapse: collapse;
+	text-align: left;
+	line-height: 1.5;
+	border-top: 1px solid #ccc;
+	border-left: 3px solid #369;
+	margin: 20px 10px;
+	width:50%;
+}
+
+table.type03 th {
+	width: 147px;
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+	color: #153d73;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+table.type03 td {
+	width: 349px;
+	padding: 10px;
+	vertical-align: top;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+a{
+	text-decoration:none;
+	color : #153d73;
+}
+</style>
+</head>
+<body>
+	<%@ include file="../../header.jsp"%>
+
+	<table class="type03" align="center">
+		<tr>
+			<th scope="row"><a href="/semi/vrimg?page=1&place=건대">건대</a></th>
+			
+		</tr>
+		<tr>
+			<th scope="row"><a href="/semi/vrimg?page=1&place=홍대">홍대</a></th>
+			
+		</tr>
+		<tr>
+			<th scope="row"><a href="/semi/vrimg?page=1&place=동대문">동대문</a></th>
+			
+		</tr>
+		<tr>
+			<th scope="row"><a href="/semi/vrimg?page=1&place=혜화">혜화</a></th>
+			
+		</tr>
+		<tr>
+			<th scope="row"><a href="/semi/vrimg?page=1&place=신사">신사</a></th>
+			
+		</tr>
+	</table>
+	
+	<%@ include file="../../footer.jsp"%>
+</body>
+</html>

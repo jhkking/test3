@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="feedbackMapper">
+	<!-- namespace는 패키지명 역할 -->
+
+	<resultMap id="feedbackResultMap" type="Feedback">
+		<result property="f_no" column="f_no" />
+		<result property="f_day" column="f_day" />
+		<result property="f_nation1" column="f_nation1" />
+		<result property="f_nation2" column="f_nation2" />
+		<result property="f_title" column="f_title" />
+		<result property="f_writer" column="f_writer" />
+		<result property="f_content" column="f_content" />
+		<result property="f_original_filename" column="f_original_filename" />
+		<result property="f_rename_filename" column="f_rename_filename" />
+		<result property="f_readcount" column="f_readcount" />
+		<result property="f_date" column="f_date" />
+	</resultMap>
+
+	<select id="selectFeedbackList" resultMap="feedbackResultMap">
+	
+	<![CDATA[
+	select * from feedback where f_day=1 order by f_no desc
+	]]>
+	</select>
+
+	<update id="updateReadCount">
+	<![CDATA[
+	update feedback set f_readcount=f_readcount+1 where f_no= #{no}
+	]]>
+	</update>
+
+	<select id="selectFeedbackOneList" resultMap="feedbackResultMap">
+	<![CDATA[
+	select * from feedback where f_no = #{no} order by f_day asc
+	]]>
+	</select>
+
+	<select id="selectdetailOne" resultMap="feedbackResultMap">
+	<![CDATA[
+	select * from feedback where f_day = #{day} and f_no = #{ref} 
+	]]>
+	</select>
+
+
+	<select id="insertFeedback" resultMap="feedbackResultMap">
+	<![CDATA[
+			insert into feedback values(#{f_no}, #{f_day}, #{f_nation1}, #{f_nation2}, #{f_title}, #{f_writer}, #{f_content}, #{f_original_filename}, #{f_rename_filename}, 0, #{f_date})
+	]]>
+	</select>
+
+	<select id="searchMaxNo"  resultType="int">
+	<![CDATA[
+		select max(f_no) from feedback
+			]]>
+	</select>
+	<select id="myFeedbackList" resultMap="feedbackResultMap">
+		<![CDATA[
+		select * from feedback where f_writer = #{id} and f_day=1
+			]]>
+	</select>
+	
+		<delete id="feedbackDelete">
+		<![CDATA[
+		delete from feedback where f_writer = #{id}  and f_title = #{title}
+			]]>
+	</delete>
+
+</mapper>

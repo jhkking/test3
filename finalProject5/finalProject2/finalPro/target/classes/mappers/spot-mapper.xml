@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spotMapper">
+   <!-- namespace는 패키지명 역할 -->
+
+   <resultMap id="spotResultMap" type="Spot">
+      <result property="s_no" column="s_no" />
+      <result property="s_nation1" column="s_nation1" />
+      <result property="s_nation2" column="s_nation2" />
+      <result property="s_title" column="s_title" />
+      <result property="s_content" column="s_content" />
+      <result property="s_original_filename" column="s_original_filename" />
+      <result property="s_rename_filename" column="s_rename_filename" />
+      <result property="s_address" column="s_address" />
+      <result property="s_writer" column="s_writer" />
+      <result property="s_phone" column="s_phone" />
+      <result property="s_like_count" column="s_like_count" />
+   </resultMap>
+
+
+   <!-- <select id="selectBoardList" resultType="List" > -->
+   <select id="selectSpotList" resultMap="spotResultMap">
+      <![CDATA[
+      select * from spot where s_nation1 = #{nation1} order by s_no desc
+         ]]>
+   </select>
+
+   <select id="selectNationList" resultMap="spotResultMap">
+      <![CDATA[
+      select distinct s_nation1 from spot order by  s_nation1 asc
+         ]]>
+   </select>
+
+   <select id="selectSpotOne" resultType="Spot">
+      <![CDATA[
+      select * from spot where s_no=#{no}
+         ]]>
+   </select>
+   <select id="spotReco" resultMap="spotResultMap">
+      <![CDATA[
+      select * from spot  where  s_nation1 like '%' ||  #{s_nation1} || '%' order by s_no desc
+         ]]>
+   </select>
+
+   <insert id="spotInsert" parameterType="Spot">
+      insert into spot values ((select max(s_no) from
+      spot)+1,#{s_nation1},#{s_nation2},#{s_title},#{s_content},#{s_original_filename},#{s_rename_filename},#{s_address},#{s_writer},#{s_phone},0)
+
+
+   </insert>
+
+   <delete id="deleteSpot" parameterType="Spot">
+   <![CDATA[
+   delete from Spot
+   where s_no =#{s_no}
+   ]]>
+   </delete>
+
+   <update id="addLikecount">
+   <![CDATA[
+   update spot set s_like_count = s_like_count+1 where s_no = #{like_place_no}
+   ]]>
+   </update>
+   
+   <update id="dellikecount">
+   <![CDATA[
+   update spot set s_like_count = s_like_count-1 where s_no = #{like_place_no}
+   ]]>
+   </update>
+</mapper>

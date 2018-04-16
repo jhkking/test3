@@ -1,0 +1,136 @@
+package vrBoard.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+
+import vrBoard.model.service.vrBoardService;
+import vrBoard.model.vo.Maplocation;
+import vrBoard.model.vo.VrBoardDetail;
+import vrBoard.model.vo.vrBoard;
+
+/**
+ * Servlet implementation class IntroBestServlet
+ */
+@WebServlet("/introbest")
+public class IntroBestServlet extends HttpServlet {
+   private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public IntroBestServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+   /**
+    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    */
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      ArrayList<vrBoard> placelist = new vrBoardService().PlaceList();
+      ArrayList<vrBoard> hotellist = new vrBoardService().HotelList();
+      ArrayList<vrBoard> reslist = new vrBoardService().ResList();
+      ArrayList<VrBoardDetail> detaillist = new vrBoardService().DetailList();
+      ArrayList<Maplocation> maplist = new vrBoardService().MapList();
+      /*RequestDispatcher view = null;*/
+      
+      JSONObject sendJSON = new JSONObject();
+      for(int i = 0; i < maplist.size(); i++) {
+         if(placelist.get(0).getVrboardnum() == maplist.get(i).getMapnum())
+               sendJSON.put("placetitle1pic1", maplist.get(i).getImagename());
+      }
+      for(int i = 0; i < maplist.size(); i++) {
+         if(placelist.get(1).getVrboardnum() == maplist.get(i).getMapnum())
+               sendJSON.put("placetitle1pic2", maplist.get(i).getImagename());
+      }
+      for(int i = 0; i < maplist.size(); i++) {
+         if(placelist.get(2).getVrboardnum() == maplist.get(i).getMapnum())
+               sendJSON.put("placetitle1pic3", maplist.get(i).getImagename());
+      }
+      /*sendJSON.put("placetitle1pic1", placelist.get(0).getVrboardoriginalfilename());
+      sendJSON.put("placetitle1pic2", placelist.get(1).getVrboardoriginalfilename());
+      sendJSON.put("placetitle1pic3", placelist.get(2).getVrboardoriginalfilename());*/
+      sendJSON.put("placetitle1", placelist.get(0).getVrboardtitle());
+      sendJSON.put("placetitle2", placelist.get(1).getVrboardtitle());
+      sendJSON.put("placetitle3", placelist.get(2).getVrboardtitle());
+      
+      
+      System.out.println(placelist.get(0).getVrboardtitle()+","+placelist.get(1).getVrboardtitle()+","+placelist.get(2).getVrboardtitle());
+      
+      sendJSON.put("hoteltitle1pic", hotellist.get(0).getVrboardoriginalfilename());
+      sendJSON.put("hoteltitle1", hotellist.get(0).getVrboardtitle());
+      sendJSON.put("hoteltitle2", hotellist.get(1).getVrboardtitle());
+      sendJSON.put("hoteltitle3", hotellist.get(2).getVrboardtitle());
+      sendJSON.put("restitle1pic", reslist.get(0).getVrboardoriginalfilename());
+      sendJSON.put("restitle1", reslist.get(0).getVrboardtitle());
+      sendJSON.put("restitle2", reslist.get(1).getVrboardtitle());
+      sendJSON.put("restitle3", reslist.get(2).getVrboardtitle());
+      
+      for(int i = 0; i < detaillist.size(); i++) {
+         if(placelist.get(0).getVrboardnum() == detaillist.get(i).getVrdetailnum())
+               sendJSON.put("mainPA1", detaillist.get(i).getVrdetailaddress());
+      }
+      
+      for(int i = 0; i < detaillist.size(); i++) {
+         if(placelist.get(1).getVrboardnum() == detaillist.get(i).getVrdetailnum())
+               sendJSON.put("mainPA2", detaillist.get(i).getVrdetailaddress());
+      }
+      
+      for(int i = 0; i < detaillist.size(); i++) {
+         if(placelist.get(2).getVrboardnum() == detaillist.get(i).getVrdetailnum())
+               sendJSON.put("mainPA3", detaillist.get(i).getVrdetailaddress());
+      }
+      /*for(int i = 0; i < detaillist.size(); i++) {
+         if(hotellist.get(0).getVrboardnum() == detaillist.get(i).getVrdetailnum())
+               sendJSON.put("mainHA", detaillist.get(i).getVrdetailaddress());
+      }*/
+      /*sendJSON.put("mainRA", reslist.get(0).getVrboardcontent());
+      sendJSON.put("mainHA", hotellist.get(1).getVrboardcontent());*/
+/*      
+      
+      sendJSON.put("mainPN", placelist.get(0).getVrboardnum());
+      sendJSON.put("mainRN", reslist.get(0).getVrboardnum());
+      sendJSON.put("mainHN", hotellist.get(1).getVrboardnum());*/
+
+      
+      response.setContentType("application/json; charset=UTF-8");
+      PrintWriter output = response.getWriter();
+      output.print(sendJSON.toJSONString());
+      output.flush();
+      output.close();
+      
+      /*if(!placelist.isEmpty() && !hotellist.isEmpty() && !reslist.isEmpty()) {
+         view = request.getRequestDispatcher("intro.jsp");
+         //request.setAttribute("map", map);
+         request.setAttribute("placelist", placelist);
+         request.setAttribute("hotellist", hotellist);
+         request.setAttribute("reslist", reslist);
+         view.forward(request, response);
+         
+      }else {
+         view = request.getRequestDispatcher("views/reviewboard/reviewError.jsp");
+         request.setAttribute("message", "게시글 페이지별 조회 실패!");
+         view.forward(request, response);
+      }*/
+   }
+
+   /**
+    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+    */
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      // TODO Auto-generated method stub
+      doGet(request, response);
+   }
+
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC
+"-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	<!-- 자료형 줄임말 정의할때 사용! -->
+
+		<typeAlias type="com.kh.finalPro.admin.model.vo.Admin" alias="Admin" /> 
+		<typeAlias type="com.kh.finalPro.black.model.vo.Black" alias="Black" />
+		<typeAlias type="com.kh.finalPro.letter.model.vo.Letter" alias="Letter" />
+		<typeAlias type="com.kh.finalPro.message.model.vo.Message" alias="Message" />
+		<typeAlias type="com.kh.finalPro.member.model.vo.Member" alias="Member" />
+		<typeAlias type="com.kh.finalPro.notice.model.vo.Notice"
+			alias="Notice" />
+		<typeAlias type="com.kh.finalPro.qna.model.vo.Qna" alias="Qna" />
+		<typeAlias type="com.kh.finalPro.qna.model.vo.Qnareply" alias="Qnareply" />
+		<typeAlias type="com.kh.finalPro.spot.model.vo.Spot" alias="Spot" />
+		<typeAlias type="com.kh.finalPro.spot.model.vo.Spotreply"
+			alias="Spotreply" />
+		<typeAlias type="com.kh.finalPro.review.model.vo.Review"
+			alias="Review" />
+		<typeAlias type="com.kh.finalPro.rootconsulting.model.vo.Rootconsulting"
+			alias="Rootconsulting" />
+		<typeAlias type="com.kh.finalPro.food.model.vo.Food" alias="Food" />
+		<typeAlias type="com.kh.finalPro.hotel.model.vo.Hotel"
+			alias="Hotel" />
+		<typeAlias type="com.kh.finalPro.hotel.model.vo.Hotelreply"
+			alias="Hotelreply" />
+		<typeAlias type="com.kh.finalPro.food.model.vo.Foodreply"
+			alias="Foodreply" />
+		<typeAlias type="com.kh.finalPro.likeplace.model.vo.Likeplace"
+			alias="Likeplace" />
+		<typeAlias type="com.kh.finalPro.feedback.model.vo.Feedback"
+			alias="Feedback" />
+		<typeAlias type="com.kh.finalPro.feedback.model.vo.Feedbackreply"
+			alias="Feedbackreply" />
+	</typeAliases>
+<!--사이내용 삭제함  -->
+	<mappers>
+	<!-- 등록안해놓으면 에러남 / Dao와 연결안됨 -->
+
+		<mapper resource="mappers/admin-mapper.xml" />
+		<mapper resource="mappers/black-mapper.xml" />
+		<mapper resource="mappers/letter-mapper.xml"/>
+		<mapper resource="mappers/message-mapper.xml" />
+		<mapper resource="mappers/member-mapper.xml" />
+		<mapper resource="mappers/noitce-mapper.xml" />
+		<mapper resource="mappers/qna-mapper.xml" />
+		<mapper resource="mappers/qnareply-mapper.xml" />
+		<mapper resource="mappers/spot-mapper.xml" />
+		<mapper resource="mappers/spotreply-mapper.xml" />
+		<mapper resource="mappers/review-mapper.xml" />
+		<mapper resource="mappers/root-mapper.xml" />
+		<mapper resource="mappers/hotel-mapper.xml" />
+		<mapper resource="mappers/hotelreply-mapper.xml" />
+		<mapper resource="mappers/food-mapper.xml" />
+		<mapper resource="mappers/foodreply-mapper.xml" />
+		<mapper resource="mappers/likeplace-mapper.xml" />
+		<mapper resource="mappers/feedback-mapper.xml" />
+		<mapper resource="mappers/feedbackreply-mapper.xml" />
+	</mappers>
+</configuration>

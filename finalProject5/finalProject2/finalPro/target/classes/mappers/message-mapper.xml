@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="messageMapper">
+	<!-- namespace는 패키지명 역할 -->
+
+	<resultMap id="messageResultMap" type="Message">
+		<result property="m_no" column="m_no" />
+		<result property="m_title" column="m_title" />
+		<result property="m_content" column="m_content" />
+		<result property="m_writer" column="m_writer" />
+		<result property="m_recv" column="m_recv" />
+		<result property="m_date" column="m_date" />
+		<result property="m_read" column="m_read" />
+	</resultMap>
+
+
+
+	<!-- <select id="selectBoardList" resultType="List" > -->
+	<select id="selectMessage" resultMap="messageResultMap"
+		parameterType="Message">
+		<![CDATA[
+		select * from(select * from(SELECT m_no,m_title,m_content,m_writer,m_recv,TO_char(m_date,'YYYYMMDDHHmmss') m_date,m_read ,m_d_writer,m_d_recv
+		FROM message 
+		where (m_writer = #{m_writer} or m_recv = #{m_writer}) and (m_writer = #{m_recv} or m_recv = #{m_recv}))
+		order by m_no desc)
+        where rownum=1
+		]]>
+	</select>
+
+	<select id="selectCnt" resultMap="messageResultMap" parameterType="String">
+		<![CDATA[
+		select * from(select m_writer,m_recv from (select * from(SELECT m_no,m_title,m_content,m_writer,m_recv,TO_char(m_date,'YYYYMMDDHHmmss') m_date,m_read 
+		FROM message 
+		where m_writer = #{loginId} or m_recv = #{loginId})
+		order by m_date desc) group by m_writer,m_recv)
+		]]>
+	</select>
+	
+	<select id="msgViewSelect" resultMap="messageResultMap" parameterType="Message">
+      <![CDATA[
+         select m_writer,m_recv,m_date,m_content from message
+         where m_writer=#{m_writer} and m_recv=#{m_recv} or M_WRITER=#{m_recv} and M_RECV=#{m_writer} order by m_date asc
+      ]]>
+   </select>
+   
+   <insert id="insertMessage" parameterType="Message">
+      <![CDATA[
+         insert into message values((select max(m_no)+1 from message), null, #{m_content}, #{m_writer}, #{m_recv}, sysdate, default, default, default) 
+      ]]>
+   </insert>
+   
+   <insert id="insertMessageRT" parameterType="Message">
+      <![CDATA[
+         insert into message values((select max(m_no)+1 from message), '', #{m_content}, #{m_writer}, #{m_recv}, sysdate, default, default, default) 
+      ]]>
+   </insert>
+   
+   <update id="msgRead" parameterType="Message">
+		<![CDATA[
+		update message set m_read = 'Y' where m_no = #{m_no}
+			]]>
+	</update>
+	
+	<update id="msgDelete" parameterType="Message">
+      <![CDATA[
+      update message set m_d_writer = 'Y' where M_WRITER = #{m_writer} and m_recv = #{m_recv}
+         ]]>
+   </update>
+   
+   <update id="msgDelete2" parameterType="Message">
+      <![CDATA[
+      update message set m_d_recv = 'Y' where M_WRITER = #{m_recv} and m_recv = #{m_writer}
+         ]]>
+   </update>
+
+
+</mapper>

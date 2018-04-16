@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hotelreplyMapper">
+<!-- namespace는 패키지명 역할 -->
+
+<resultMap id="hotelreplyResultMap" type="Hotelreply">
+  		<result property="ho_no" column="ho_no"/>
+  		<result property="ho_ref_no" column="ho_ref_no"/>
+  		<result property="ho_writer" column="ho_writer"/>
+  		<result property="ho_content" column="ho_content"/>
+  		<result property="ho_date" column="ho_date"/>
+
+	</resultMap>
+	 
+
+	<!-- <select id="selectBoardList" resultType="List"  > -->
+	<select id="selectHotelreplyList" resultMap="hotelreplyResultMap">
+		<![CDATA[
+		select * from hotelreply where ho_ref_no=#{no} order by ho_no desc
+			]]>
+	</select>
+	
+	<insert id="insertHotelReply" parameterType="Hotelreply">
+		<![CDATA[
+				insert  into  hotelreply values( (select max(ho_no) +1 from hotelreply)  ,#{ho_ref_no},#{ho_writer},#{ho_content},sysdate)
+			]]>
+	</insert>
+	<delete id="deleteHotelReply" parameterType="Hotelreply">
+	<![CDATA[
+	delete from hotelreply where ho_no=#{ho_no}
+	]]>
+	</delete>
+
+
+
+</mapper>

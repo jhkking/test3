@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewMapper">
+<!-- namespace는 패키지명 역할 -->
+
+<resultMap id="reviewResultMap" type="Review">
+  		<result property="r_no" column="r_no"/>
+  		<result property="r_day" column="r_day"/>
+  		<result property="r_nation1" column="r_nation1"/>
+  		<result property="r_nation2" column="r_nation2"/>
+  		<result property="r_title" column="r_title"/>
+  		<result property="r_writer" column="r_writer"/>
+  		<result property="r_content" column="r_content"/>
+  		<result property="r_original_filename" column="r_original_filename"/>
+  		<result property="r_rename_filename" column="r_rename_filename"/>
+  		<result property="r_readcount" column="r_readcount"/>
+  		<result property="r_date" column="r_date"/>
+	</resultMap>
+	 
+	<select id = "selectOneReview"  resultMap="reviewResultMap">
+		<![CDATA[
+				select * from review where r_no = #{r_no}
+			]]>
+	</select>
+	<select id = "selectOneReview2"  resultMap="reviewResultMap">
+		<![CDATA[
+				select * from review where r_writer = #{r_writer} and r_title = #{r_title}
+			]]>
+	</select>
+	
+	<!-- <select id="selectBoardList" resultType="List"  > -->
+	<select id="selectReviewList" resultMap="reviewResultMap">
+		<![CDATA[
+		select * from review where r_day = 1 order by r_no desc
+			]]>
+	</select>
+	
+	<select id="searchNum" resultType="int">
+		<![CDATA[
+		select max(r_no) from review 
+			]]>
+	</select>
+	
+	<insert id="reviewInsert"  parameterType="Review">
+		<![CDATA[
+		insert into review values (#{r_no}, #{r_day}, #{r_nation1}, #{r_nation2},#{r_title},#{r_writer},#{r_content},#{r_original_filename},#{r_rename_filename},0,#{r_date})
+			]]>
+	</insert>
+
+	<select id="myReviewList" resultMap="reviewResultMap">
+		<![CDATA[
+		select * from review where r_writer = #{id}  and r_day = 1  order by r_no desc
+			]]>
+	</select>
+	
+	<delete id="reviewDelete">
+		<![CDATA[
+		delete from review where r_writer = #{id}  and r_title = #{title}
+			]]>
+	</delete>
+	
+	<update id="addReadcount" parameterType="int">
+		<![CDATA[
+		update review set r_readcount=r_readcount+1 where r_no = #{r_no}
+			]]>
+	</update>
+
+</mapper>

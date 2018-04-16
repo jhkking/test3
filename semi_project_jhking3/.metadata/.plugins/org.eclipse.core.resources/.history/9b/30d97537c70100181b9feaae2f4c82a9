@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ page import="member.model.vo.Member" %>
+<%
+	Member member = (Member)session.getAttribute("member");
+%>  
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+ table{
+    border-collapse: separate;
+   border-spacing:0px 4px
+ }
+ .modal-dialog{
+      width:450px;
+      height:350px;
+ }
+</style>
+</head>
+<body>
+<nav
+		class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="intro.jsp">WhybiS</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button"
+				data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="/semi/intro.jsp">HOME</a></li>
+					<li class="nav-item"><a class="nav-link" href="/semi/views/vrboard/vr.jsp">PLACE</a></li>
+					<li class="nav-item"><a class="nav-link" href="/semi/views/best/best.jsp">BEST</a></li>
+					<li class="nav-item"><a class="nav-link" href=""> BOARD </a></li>
+					<li class="nav-item"><a class="nav-link" href=""> Q&A </a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="" id="navbarDropdownBlog"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							MY PAGE </a>
+						<div class="dropdown-menu dropdown-menu-right"
+							aria-labelledby="navbarDropdownBlog">
+							<a class="dropdown-item" href="full-width.html">내 정보 보기 및 수정</a>
+							<a class="dropdown-item" href="sidebar.html">나의 관심 장소 보기</a> <a
+								class="dropdown-item" href="faq.html">내가 쓴 글 보기</a>
+						</div>
+						<li></li>
+						<li></li>
+				</ul>
+				<% if(member == null){  //로그인하지 않았다면 %>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#myModal"> LOGIN </a></li>
+					<li class="nav-item"><a class="nav-link" href=""> JOIN </a></li>
+				</ul>
+				<% }else{ %>
+				<tr><td><%= member.getSmemberName() %> 님</td>
+	   <td><a href="/semi/logout">로그아웃</a></td></tr>
+	   <tr>
+				<td>
+					<% if(member.getSmemberId().equals("admin")){ %> 
+					<a href="/semi/mlist">회원 정보 전체보기</a> <% }%>
+				</td>
+			</tr>
+				<% } %>
+			</div>
+		</div>
+	</nav>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+               <h4 class="modal-title" id="myModalLabel">로그인</h4>
+                  <button type="button" class="close" data-dismiss="modal">
+                     <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                  </button>
+                  
+               </div>
+         <!--모달 바디-->
+               <div class="modal-body">
+                  <table width="250" cellpadding="0" cellspacing="0"  align = "center">
+                     <tr>
+                        <td>아이디</td>
+                        <td><input type="text" name="userid"></td>
+                     </tr>
+                     
+                     <tr>
+                        <td>암     호</td>
+                        <td><input type="password" name="userpwd"></td>
+                     </tr>
+                     <tr align = "center">
+                        <td colspan="2"><a href="#">아이디/암호 찾기</a></td>
+                     </tr>
+                     <tr align = "center">
+                     <td colspan="2"><a href="#">회원가입</a></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <form action="login" method ="post">
+                  <button type="submit" class="btn btn-primary">로그인</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+   <script
+      src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   <script src="http://googledrive.com/host/0B-QKv6rUoIcGREtrRTljTlQ3OTg"></script>
+   <!-- ie10-viewport-bug-workaround.js -->
+   <script src="http://googledrive.com/host/0B-QKv6rUoIcGeHd6VV9JczlHUjg"></script>
+   <!-- holder.js -->
+	
+</body>
+</html>

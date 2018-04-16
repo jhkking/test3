@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeMapper">
+	<!-- namespace는 패키지명 역할 -->
+
+	<resultMap id="noticeResultMap" type="Notice">
+		<result property="n_no" column="n_no" />
+		<result property="n_title" column="n_title" />
+		<result property="n_writer" column="n_writer" />
+		<result property="n_date" column="n_date" />
+		<result property="n_content" column="n_content" />
+		<result property="n_original_filename" column="n_original_filename" />
+		<result property="n_rename_filename" column="n_rename_filename" />
+		<result property="n_readcount" column="n_readcount" />
+	</resultMap>
+
+
+
+	<select id="selectNotcieList" resultMap="noticeResultMap">
+		<![CDATA[
+		select * from notice order by n_no desc
+			]]>
+	</select>
+
+	<select id="selectNoticeOne" resultType="Notice">
+		<![CDATA[
+		select * from notice where n_no = #{noticeNo}
+			]]>
+	</select>
+	<update id="updateReadCount">
+	<![CDATA[
+		update notice set n_readcount=n_readcount+1 where n_no = #{noticeNo}
+			]]>
+	</update>
+	
+	<insert id="noticeInsert" parameterType="Notice">
+		insert into notice values((select max(n_no) from notice )+1 ,#{n_title},#{n_writer}, sysdate ,#{n_content},#{n_original_filename},#{n_rename_filename},#{n_readcount})
+	</insert>
+	
+	<update id="updateNotice" parameterType="Notice">
+		<![CDATA[
+		UPDATE NOTICE SET n_title = #{n_title},n_content = #{n_content},n_original_filename=#{n_original_filename},n_rename_filename=#{n_rename_filename}  WHERE n_no = #{n_no}
+		]]>
+	</update>
+	
+	
+		<delete id="deleteNotice" parameterType="Notice">
+		<![CDATA[
+		delete from Notice  where n_no = #{n_no}
+		]]>
+	</delete>
+
+
+</mapper>
